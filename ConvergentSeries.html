@@ -48,11 +48,13 @@ $(function () {
 
 var('k, n')
 
-@interact( layout = [ ['seq', 'N', 'sums'], ['n_min', 'n_max'] ])
+@interact( layout = [ ['seq', 'N', 'sums'], ['n_min', 'n_max'], ['y_min', 'y_max'] ])
 def alternating( seq = input_box( default = 1/n^2, label = "a(n) = ", width = 20), 
         N = input_box( default = 60, label = "N = ", width = 5),
-        n_min = input_box( default = 1, label = "n_min", width = 5),
-        n_max = input_box( default = 60, label = "n_max", width = 5),
+        n_min = input_box( default = 1, label = "n min", width = 5),
+        n_max = input_box( default = 60, label = "n max", width = 5),
+        y_min = input_box( default = 0, label = "y min", width = 5),
+        y_max = input_box( default = 1.7, label = "y max", width = 5),
         sums = False ):
     
     # Avoid the deprecation warning
@@ -61,7 +63,7 @@ def alternating( seq = input_box( default = 1/n^2, label = "a(n) = ", width = 20
     # Set up for taking partial sums, plotting the points, and plotting the partial sums
     s(n) = sum(a(k), k, 1, n)
     termPts = [(n_min, a(n_min))]
-    myPlot = list_plot( [(n_min, 0), termPts[0]], plotjoined=True, color="blue" )
+    myPlot = list_plot( [(n_min, 0), termPts[0]], plotjoined=True, color="blue", ymin = y_min, ymax = y_max )
     partialSumPts = [(n_min, a(n_min))]
     l = 0
     
@@ -73,18 +75,18 @@ def alternating( seq = input_box( default = 1/n^2, label = "a(n) = ", width = 20
     for j in range(n_min + 1, n_max + 1):
         l += 1
         termPts.append((j, a(j)))
-        myPlot += list_plot( [(j,0), termPts[l]], plotjoined=True, color="blue")
+        myPlot += list_plot( [(j,0), termPts[l]], plotjoined=True, color="blue", ymin = y_min, ymax = y_max)
         partialSumPts.append((j, s(j).n()))
   
     # Combine all things to be plotted  
-    graph = myPlot + list_plot(termPts, size=15, color="blue", legend_label = "sequence terms") + list_plot(partialSumPts, size=15, color="red", legend_label = "series terms")
+    graph = myPlot + list_plot(termPts, size=15, color="blue", legend_label = "sequence terms", ymin = y_min, ymax = y_max) + list_plot(partialSumPts, size=15, color="red", legend_label = "series terms", ymin = y_min, ymax = y_max)
         
     try:
         total = sum( a, n, 1, oo )
         print "The series is convergent!" 
         
         # Graph the limit as a line, append the the plot, and show the graph
-        f = plot( total, n_min, n_max, color = '#b30000', legend_label = "Limit approx." )
+        f = plot( total, n_min, n_max, color = '#b30000', legend_label = "Limit approx.", ymin = y_min, ymax = y_max )
         graph += f
             
         if sums == True:
