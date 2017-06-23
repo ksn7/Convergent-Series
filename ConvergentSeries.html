@@ -78,32 +78,26 @@ def alternating( seq = input_box( default = 1/n^2, label = "a(n) = ", width = 20
   
     # Combine all things to be plotted  
     graph = myPlot + list_plot(termPts, size=15, color="blue", legend_label = "sequence terms") + list_plot(partialSumPts, size=15, color="red", legend_label = "series terms")
-    
-    # Make copies of the above, then iterate up to the 1000th term / "limit"
-    termPts2 = termPts
-    partialSumPts2 = partialSumPts
-    for j in range( n_max + 1, 1000):
-        termPts2.append((j, a(j)))
-        partialSumPts2.append((j, s(j).n()))
         
     try:
         total = sum( a, n, 1, oo )
         print "The series is convergent!" 
+        
+        # Graph the limit as a line, append the the plot, and show the graph
+        f = plot( total, n_min, n_max, color = '#b30000', legend_label = "Limit approx." )
+        graph += f
+            
         if sums == True:
             print "The infinite sum is " + str(total) + "."
     except:
         print "This series does not converge."
         
-     
-    # Graph the limit as a line, append the the plot, and show the graph
-    f = plot( partialSumPts2[-1][1], n_min, n_max, color = '#b30000', legend_label = "Limit approx. (1000 terms)" )
-    graph += f
     graph.show()
 
 </script>
 </div>
 
 <hr>
-Last modified on June 21st, 2017.
+Last modified on June 23rd, 2017.
 </body>
 </html>
