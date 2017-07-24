@@ -48,14 +48,14 @@ $(function () {
 
 var('k, n')
 
-@interact( layout = [ ['seq', 'N', 'series_sum'], ['n_min', 'n_max'], ['y_min', 'y_max'] ])
-def alternating( seq = input_box( default = 1/n^2, label = "a(n) = ", width = 20), 
+@interact( layout = [ ['seq', 'N', 'sums'], ['n_min', 'n_max'], ['y_min', 'y_max'] ])
+def convergent( seq = input_box( default = 1/n^2, label = "a(n) = ", width = 20), 
         N = input_box( default = 60, label = "N = ", width = 5),
         n_min = input_box( default = 1, label = "n min", width = 5),
         n_max = input_box( default = 60, label = "n max", width = 5),
         y_min = input_box( default = 0, label = "y min", width = 5),
         y_max = input_box( default = 1.7, label = "y max", width = 5),
-        series_sum = False ):
+        sums = False ):
     
     # Avoid the deprecation warning
     a(n) = seq.function(n)
@@ -68,8 +68,7 @@ def alternating( seq = input_box( default = 1/n^2, label = "a(n) = ", width = 20
     l = 0
     
     # Print S(N) and S(N-1)
-    print "a(N) = " + str(a(N-1).n())
-    print "S(N) = " + str(s(N).n())
+    pretty_print( "a(N) = " + str(a(N-1).n()) + ", S(N) = " + str(s(N).n()) )
     
     # Loop through terms 2 through n
     for j in range(n_min + 1, n_max + 1):
@@ -83,16 +82,17 @@ def alternating( seq = input_box( default = 1/n^2, label = "a(n) = ", width = 20
         
     try:
         total = sum( a, n, 1, oo )
-        print "The series is convergent!" 
+        if sums == True:
+            pretty_print( "The series is convergent! The infinite sum is " + str(total) + "." )
+        else:
+            pretty_print( "The series is convergent!" )
         
         # Graph the limit as a line, append the the plot, and show the graph
         f = plot( total, n_min, n_max, color = '#b30000', legend_label = "Limit approx.", ymin = y_min, ymax = y_max )
         graph += f
             
-        if series_sum == True:
-            print "The infinite sum is " + str(total) + "."
     except:
-        print "This series does not converge."
+        pretty_print( "This series does not converge." )
         
     graph.show()
 
@@ -100,6 +100,6 @@ def alternating( seq = input_box( default = 1/n^2, label = "a(n) = ", width = 20
 </div>
 
 <hr>
-Last modified on June 29th, 2017.
+Last modified on July 24th, 2017.
 </body>
 </html>
