@@ -54,14 +54,11 @@ def convergent( seq = input_box( default = 1/n^2, label = "$a(n) = $", width = 2
         n_min = input_box( default = 1, label = "$n_{min}$", width = 5),
         n_max = input_box( default = 60, label = "$n_{max}$", width = 5),
         y_min = input_box( default = 0, label = "$y_{min}$", width = 5),
-        y_max = input_box( default = 1.7, label = "$y_{max}$", width = 5),
+        y_max = input_box( default = "1.7", label = "$y_{max}$", width = 5),
         sums = False ):
     
     # Avoid the deprecation warning
     a(n) = seq.function(n)
-
-    # Set number of digits to print
-    num_digits = 7
 
     # Set up for taking partial sums, plotting the points, and plotting the partial sums
     s(n) = sum(a(k), k, 1, n)
@@ -71,8 +68,8 @@ def convergent( seq = input_box( default = 1/n^2, label = "$a(n) = $", width = 2
     l = 0
     
     # Print S(N) and S(N-1)
-    pretty_print( "a(N) = " + str(a(N).n(digits = num_digits)) + ", S(N) = " + str(s(N).n(digits = num_digits)) )
-    
+    pretty_print( "a(N) = %6.7f" %a(N).n() + ", S(N) = %6.7f" %s(N).n() )    
+
     # Loop through terms 2 through n
     for j in range(n_min + 1, n_max + 1):
         l += 1
@@ -103,6 +100,6 @@ def convergent( seq = input_box( default = 1/n^2, label = "$a(n) = $", width = 2
 </div>
 
 <hr>
-Last modified on August 15th, 2017.
+Last modified on August 16th, 2017.
 </body>
 </html>
